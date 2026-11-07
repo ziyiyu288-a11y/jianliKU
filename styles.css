@@ -386,10 +386,17 @@ body[data-view="editor"]{background:#e9ece4}body[data-view="editor"] .app-footer
 @media(max-width:380px){.hero-preview{display:none}}
 @media(pointer:coarse){.entry-actions button,.template-favorite,.favorites-filter{width:44px;height:44px}.photo-buttons .button,.filter-button{min-height:44px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;animation-iteration-count:1!important}}
+.export-options{overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;max-height:460px}
+.resume-export-stage{position:fixed;left:-100000px;top:0;width:794px;pointer-events:none;z-index:-1}
+.resume-export-slice{position:relative;width:794px;overflow:hidden;background:#fff}
+.export-spinner,.is-exporting::before{content:"";display:inline-block;width:14px;height:14px;border:2px solid #66814940;border-top-color:#668149;border-radius:50%;animation:export-spin .8s linear infinite;flex-shrink:0}
+.is-exporting>svg:first-child{display:none}
+@keyframes export-spin{to{transform:rotate(360deg)}}
 /* Browser print keeps real selectable text and allows multi-page content. */
 @page{size:A4;margin:0}
 @media print{
   html,body{background:#fff!important;margin:0!important;padding:0!important;min-width:0!important}
+  .resume-export-stage{display:none!important}
   .app-header,.gallery-view,.app-footer,.editor-topbar,.editor-panel,.preview-toolbar,.preview-notes,.mobile-editor-tabs,.toast-container,.app-dialog,.skip-link,noscript{display:none!important}
   #view-editor,.editor-grid,.preview-panel,.preview-canvas{display:block!important;position:static!important;margin:0!important;padding:0!important;border:0!important;background:transparent!important;max-width:none!important;max-height:none!important;min-height:0!important;overflow:visible!important}
   .paper-mount{width:auto!important;height:auto!important;margin:0!important;box-shadow:none!important;background:transparent!important}
