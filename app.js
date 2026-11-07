@@ -689,10 +689,10 @@ window.RESUME_EXPORT_CSS = "/* The resume canvas is self-contained. Application 
     $('#template-grid').innerHTML = filtered.map(template => {
       const favorite = state.favorites.includes(template.id);
       return `<article class="template-card" data-template="${template.id}">
-        <a class="template-select" href="#editor/${template.id}" data-use-template="${template.id}" aria-label="使用${esc(template.name)}模板">
+        <a class="template-select" href="#preview/${template.id}" data-preview-template="${template.id}" aria-label="预览${esc(template.name)}模板" aria-haspopup="dialog" aria-controls="template-preview-dialog">
           <span class="template-number">${template.id}</span>
           <div class="template-thumbnail" aria-hidden="true" inert><div class="thumbnail-paper">${kit.render(kit.demo, template.id)}</div></div>
-          <span class="template-action">使用此模板 <svg><use href="#ic-arrow"/></svg></span>
+          <span class="template-action">预览模板 <svg><use href="#ic-eye"/></svg></span>
         </a>
         <div class="template-info"><div><h3>${esc(template.name)}</h3><span class="template-en">${esc(template.en)}</span></div><button class="template-favorite icon-button" data-favorite="${template.id}" aria-label="${favorite ? '取消收藏' : '收藏'}${esc(template.name)}" aria-pressed="${favorite}"><svg aria-hidden="true"><use href="#ic-heart"/></svg></button></div>
         <div class="template-tags"><span>${esc(template.category)}</span>${template.tags.map(tag => '<span>' + esc(tag) + '</span>').join('')}</div>
@@ -710,12 +710,10 @@ window.RESUME_EXPORT_CSS = "/* The resume canvas is self-contained. Application 
     $$('.template-thumbnail').forEach(thumbnail => thumbObserver.observe(thumbnail));
   }
   $('#template-grid').addEventListener('click', event => {
-    const use = event.target.closest('[data-use-template]');
-    if (use) {
+    const preview = event.target.closest('[data-preview-template]');
+    if (preview) {
       event.preventDefault();
-      selectTemplate(use.dataset.useTemplate);
-      location.hash = `editor/${state.templateId}`;
-      if (currentView !== 'editor') showRoute();
+      openTemplatePreview(preview.dataset.previewTemplate, preview);
       return;
     }
     const favorite = event.target.closest('[data-favorite]');
@@ -735,6 +733,98 @@ window.RESUME_EXPORT_CSS = "/* The resume canvas is self-contained. Application 
   $('#template-search').addEventListener('input', event => { search = event.target.value; renderGallery(); });
   $('#favorites-filter').addEventListener('click', () => { favoritesOnly = !favoritesOnly; renderGallery(); });
   $('#clear-filters').addEventListener('click', () => { category = '全部'; search = ''; favoritesOnly = false; $('#template-search').value = ''; renderGallery(); });
+
+  /* Browsing a design is separate from applying it to the current draft. */
+  const templatePreviewDialog = $('#template-preview-dialog');
+  let templatePreviewSession = null;
+  let templatePreviewFrame;
+  function resizeTemplatePreview() {
+    cancelAnimationFrame(templatePreviewFrame);
+    templatePreviewFrame = requestAnimationFrame(() => {
+      if (!templatePreviewDialog.open || !templatePreviewSession) return;
+      const canvas = $('#template-preview-canvas');
+      const paper = $('#template-preview-paper .resume-sheet');
+      if (!paper) return;
+      const css = getComputedStyle(canvas);
+      const available = canvas.clientWidth - parseFloat(css.paddingLeft || 0) - parseFloat(css.paddingRight || 0);
+      if (available <= 0) return;
+      const zoom = $('#template-preview-zoom').value;
+      const scale = zoom === 'fit' ? Math.min(1, available / 794) : Number(zoom);
+      $('#template-preview-paper').style.transform = `scale(${scale})`;
+      $('#template-preview-mount').style.width = `${794 * scale}px`;
+      $('#template-preview-mount').style.height = `${Math.max(1123, paper.offsetHeight) * scale}px`;
+      if (templatePreviewSession.resetScroll) {
+        canvas.scrollTop = 0;
+        canvas.scrollLeft = 0;
+        templatePreviewSession.resetScroll = false;
+      }
+    });
+  }
+  function openTemplatePreview(id, trigger) {
+    if (!knownTemplate(id)) return;
+    const template = templates.find(item => item.id === id);
+    if (!templatePreviewSession) {
+      const scrollbar = window.innerWidth - document.documentElement.clientWidth;
+      templatePreviewSession = { id, trigger: trigger || document.activeElement, scrollY: window.scrollY, paddingRight: document.body.style.paddingRight };
+      const padding = parseFloat(getComputedStyle(document.body).paddingRight || 0);
+      document.body.style.paddingRight = `${padding + Math.max(0, scrollbar)}px`;
+      document.body.classList.add('template-preview-open');
+    } else templatePreviewSession.id = id;
+    templatePreviewSession.resetScroll = true;
+    $('#template-preview-title').textContent = template.name;
+    $('#template-preview-en').textContent = template.en;
+    $('#template-preview-number').textContent = `${id} / 20`;
+    $('#template-preview-description').textContent = template.description;
+    $('#template-preview-tags').innerHTML = [template.category, ...template.tags].map(tag => `<span>${esc(tag)}</span>`).join('');
+    $('#template-preview-paper').innerHTML = kit.render(kit.demo, id);
+    $('#template-preview-zoom').value = 'fit';
+    $('#template-preview-canvas').scrollTop = 0;
+    $('#template-preview-canvas').scrollLeft = 0;
+    if (!templatePreviewDialog.open) {
+      try { templatePreviewDialog.showModal(); }
+      catch { closeTemplatePreview(); return; }
+    }
+    $('#template-preview-canvas').scrollTop = 0;
+    $('#template-preview-canvas').scrollLeft = 0;
+    $('#template-preview-title').focus({ preventScroll: true });
+    resizeTemplatePreview();
+  }
+  function closeTemplatePreview(apply = false) {
+    const session = templatePreviewSession;
+    if (!session) return;
+    templatePreviewSession = null;
+    cancelAnimationFrame(templatePreviewFrame);
+    if (templatePreviewDialog.open) templatePreviewDialog.close();
+    document.body.classList.remove('template-preview-open');
+    document.body.style.paddingRight = session.paddingRight;
+    $('#template-preview-paper').replaceChildren();
+    if (location.hash.startsWith('#preview/')) history.replaceState(null, '', '#templates');
+    if (!apply) {
+      window.scrollTo({ top: session.scrollY, behavior: 'instant' });
+      const target = session.trigger?.isConnected && session.trigger !== document.body ? session.trigger : $(`[data-preview-template="${session.id}"]`);
+      (target || $('#main')).focus({ preventScroll: true });
+    }
+  }
+  $('#close-template-preview').addEventListener('click', () => closeTemplatePreview());
+  $('#cancel-template-preview').addEventListener('click', () => closeTemplatePreview());
+  templatePreviewDialog.addEventListener('cancel', event => { event.preventDefault(); closeTemplatePreview(); });
+  templatePreviewDialog.addEventListener('close', () => { if (!templatePreviewDialog.open) closeTemplatePreview(); });
+  templatePreviewDialog.addEventListener('click', event => {
+    const rect = templatePreviewDialog.getBoundingClientRect();
+    if (event.target === templatePreviewDialog && (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom)) closeTemplatePreview();
+  });
+  $('#use-preview-template').addEventListener('click', () => {
+    const id = templatePreviewSession?.id;
+    if (!knownTemplate(id)) return;
+    closeTemplatePreview(true);
+    selectTemplate(id);
+    location.hash = `editor/${id}`;
+    showRoute();
+  });
+  $('#template-preview-zoom').addEventListener('change', resizeTemplatePreview);
+  new ResizeObserver(resizeTemplatePreview).observe($('#template-preview-canvas'));
+  window.addEventListener('resize', resizeTemplatePreview);
+  window.addEventListener('pagehide', () => closeTemplatePreview(true));
 
   function selectTemplate(id, updateHash = false) {
     if (!knownTemplate(id)) return;
@@ -769,6 +859,8 @@ window.RESUME_EXPORT_CSS = "/* The resume canvas is self-contained. Application 
       $('#main').focus({ preventScroll: true });
     }
     currentView = view;
+    if (parts[0] === 'preview' && knownTemplate(parts[1])) requestAnimationFrame(() => openTemplatePreview(parts[1]));
+    else if (templatePreviewDialog.open) closeTemplatePreview(view === 'editor');
   }
   window.addEventListener('hashchange', showRoute);
   $('.skip-link').addEventListener('click', event => { event.preventDefault(); $('#main').focus(); });
