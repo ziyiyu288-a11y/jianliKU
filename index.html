@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f6f4ef">
+  <meta name="description" content="20款不同排版的可填写简历模板。填写一次，自由切换，支持本机保存、资料备份及A4打印。">
+  <title>简历工坊 · 为下一次机会，找到你的表达</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <svg class="icon-library" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <symbol id="ic-arrow" viewBox="0 0 24 24"><path d="M4 12h15m-6-6 6 6-6 6"/></symbol>
+    <symbol id="ic-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></symbol>
+    <symbol id="ic-edit" viewBox="0 0 24 24"><path d="m14 4 6 6M3 21l5-1L21 7a2 2 0 0 0-6-4L2 16z"/></symbol>
+    <symbol id="ic-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></symbol>
+    <symbol id="ic-heart" viewBox="0 0 24 24"><path d="M12 21 3.5 13a5.5 5.5 0 1 1 8-7.5l.5.5.5-.5a5.5 5.5 0 1 1 8 7.5Z"/></symbol>
+    <symbol id="ic-print" viewBox="0 0 24 24"><path d="M6 8V3h12v5M6 17H3V9h18v8h-3M6 14h12v7H6zM17 11h1"/></symbol>
+    <symbol id="ic-download" viewBox="0 0 24 24"><path d="M12 3v12m-5-5 5 5 5-5M3 16v5h18v-5"/></symbol>
+    <symbol id="ic-upload" viewBox="0 0 24 24"><path d="M12 16V4m-5 5 5-5 5 5M3 16v5h18v-5"/></symbol>
+    <symbol id="ic-check" viewBox="0 0 24 24"><path d="m4 12 5 5L20 6"/></symbol>
+    <symbol id="ic-close" viewBox="0 0 24 24"><path d="m6 6 12 12M6 18 18 6"/></symbol>
+    <symbol id="ic-plus" viewBox="0 0 24 24"><path d="M12 4v16M4 12h16"/></symbol>
+    <symbol id="ic-delete" viewBox="0 0 24 24"><path d="M4 6h16M9 6V3h6v3M6 6l1 15h10l1-15M10 10v7m4-7v7"/></symbol>
+    <symbol id="ic-up" viewBox="0 0 24 24"><path d="m5 15 7-7 7 7"/></symbol>
+    <symbol id="ic-down" viewBox="0 0 24 24"><path d="m5 9 7 7 7-7"/></symbol>
+    <symbol id="ic-file" viewBox="0 0 24 24"><path d="M14 2H5v20h14V7zM14 2v6h5M8 12h8M8 16h6"/></symbol>
+    <symbol id="ic-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 0 1 5 0c0 2-2.5 2-2.5 4m0 4h.01"/></symbol>
+    <symbol id="ic-external" viewBox="0 0 24 24"><path d="M14 3h7v7M21 3l-11 11M10 4H3v17h17v-7"/></symbol>
+    <symbol id="ic-eye" viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></symbol>
+  </svg>
+  <a class="skip-link" href="#main">跳至主要内容</a>
+
+  <header class="app-header">
+    <a href="#templates" class="brand"><img src="assets/favicon.svg" width="37" height="42" alt=""><span>简历工坊<small>RESUME ATELIER</small></span></a>
+    <nav class="header-nav" aria-label="主导航"><a href="#templates" class="header-tab is-active" data-view="templates">模板库 <span>20</span></a><a href="#editor" class="header-tab" data-view="editor">我的简历</a></nav>
+    <div class="header-actions"><span class="local-status"><i></i><span id="save-status" role="status">资料保存在本机</span></span><button class="icon-button help-button" id="open-help" title="使用说明" aria-label="使用说明"><svg><use href="#ic-help"/></svg></button><a href="#editor" class="button button-dark header-edit">继续编辑 <svg><use href="#ic-arrow"/></svg></a></div>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <section class="gallery-view" id="view-templates" aria-labelledby="gallery-title">
+      <div class="gallery-hero"><div class="hero-copy"><span class="eyebrow"><i></i> YOUR NEXT CHAPTER STARTS HERE</span><h1 id="gallery-title">为下一次机会，<br>找到你的<span>表达。</span></h1><p>20 种排版，装得下不一样的你。<br>填写一次资料，在喜欢的风格之间自由切换。</p><div class="hero-buttons"><a class="button button-dark" href="#collection">挑选我的模板 <svg><use href="#ic-arrow"/></svg></a><button class="text-button" id="start-blank">直接开始填写 <span>↗</span></button></div><div class="hero-facts"><span><b>20</b> 套独立风格</span><span><b>A4</b> 打印与存为 PDF</span><span><svg><use href="#ic-check"/></svg> 无需注册填写</span></div></div><div class="hero-preview" aria-hidden="true"><span class="hero-circle"></span><div class="hero-sheet hero-sheet-back"><div id="hero-template-back" class="hero-paper"></div></div><div class="hero-sheet hero-sheet-front"><div id="hero-template-front" class="hero-paper"></div></div><span class="hero-sticker">YOUR STORY,<br>WELL TOLD.</span><span class="hero-spark">✳</span><span class="hero-caption">一份好的排版，让内容被看见。</span></div></div>
+
+      <section class="collection" id="collection" aria-labelledby="collection-title">
+        <div class="collection-heading"><div><span class="eyebrow">FIND YOUR OWN FORMAT</span><h2 id="collection-title">总有一款，恰好是你。</h2></div><button class="text-button reference-link" id="open-references">排版灵感与来源 <svg><use href="#ic-external"/></svg></button></div>
+        <div class="collection-toolbar"><div class="category-filters" role="group" aria-label="模板分类"><button class="filter-button is-active" data-category="全部" aria-pressed="true">全部 <span>20</span></button><button class="filter-button" data-category="简约" aria-pressed="false">简约留白</button><button class="filter-button" data-category="商务" aria-pressed="false">专业商务</button><button class="filter-button" data-category="创意" aria-pressed="false">创意表达</button><button class="filter-button" data-category="校园" aria-pressed="false">校园起步</button><button class="filter-button" data-category="学术" aria-pressed="false">学术研究</button></div><div class="collection-tools"><button class="favorites-filter icon-button" id="favorites-filter" aria-pressed="false" aria-label="只看收藏" title="只看收藏"><svg><use href="#ic-heart"/></svg></button><label class="search-field"><svg><use href="#ic-search"/></svg><input type="search" id="template-search" placeholder="搜索名称 / 风格" aria-label="搜索模板"></label></div></div>
+        <div class="collection-meta"><span id="result-count" aria-live="polite">20 套模板</span><span>同一份资料，切换模板不会丢失。</span></div>
+        <div id="template-grid" class="template-grid"></div>
+        <div class="empty-state" id="empty-results" hidden><svg><use href="#ic-search"/></svg><h3>还没找到这一款</h3><p>试试其他关键词，或查看全部模板。</p><button class="button button-outline" id="clear-filters">查看全部模板</button></div>
+      </section>
+      <div class="gallery-bottom"><span>FILL IT. STYLE IT. MAKE IT YOURS.</span><p>简历始终属于你。所有填写内容保存在当前浏览器，支持导出资料备份。</p><a href="#editor">开始写下你的故事 <span>↗</span></a></div>
+    </section>
+
+    <section class="editor-view" id="view-editor" aria-label="简历编辑器" hidden>
+      <div class="editor-topbar"><div class="editor-heading"><a class="back-link" href="#templates" aria-label="返回模板库">←</a><div><span class="eyebrow">YOUR RESUME, YOUR WAY</span><h1>我的简历 <span id="active-template-name">简约留白</span></h1></div></div><div class="editor-actions"><div class="export-menu"><button class="button button-outline" id="open-export" aria-expanded="false" aria-controls="export-options"><svg><use href="#ic-download"/></svg><span>导出资料</span><svg class="small-icon"><use href="#ic-down"/></svg></button><div class="export-options" id="export-options" hidden><button id="export-json"><svg><use href="#ic-download"/></svg>下载资料备份 <small>JSON · 下次可导入</small></button><button id="export-html"><svg><use href="#ic-file"/></svg>下载简历网页 <small>HTML · 可独立打开</small></button><button id="import-json"><svg><use href="#ic-upload"/></svg>导入资料备份 <small>支持本站导出的 JSON</small></button></div></div><button class="button button-dark" id="print-resume"><svg><use href="#ic-print"/></svg><span>打印 / 存为 PDF</span></button></div></div>
+      <div class="mobile-editor-tabs" role="group" aria-label="编辑器视图"><button data-pane="form" class="is-active" aria-pressed="true"><svg><use href="#ic-edit"/></svg>填写资料</button><button data-pane="preview" aria-pressed="false"><svg><use href="#ic-eye"/></svg>预览简历</button></div>
+      <div class="editor-grid" data-pane="form">
+        <aside class="editor-panel" aria-label="填写简历资料"><div class="form-intro"><div><span class="step-label">01 — 填写内容</span><p>从你想展示的那部分开始。</p></div><button class="text-button" id="fill-sample">填入示例</button></div><div class="sample-banner" id="sample-banner" hidden>这份简历以虚构示例起步，请按真实经历修改，或<a href="#" id="clear-sample">从空白开始</a>。</div><form id="resume-form" autocomplete="off"></form><div class="form-bottom"><button class="text-button muted-button" id="clear-profile"><svg><use href="#ic-delete"/></svg>清空填写内容</button><span>修改会自动保存</span></div></aside>
+        <div class="preview-panel"><div class="preview-toolbar"><div><span class="step-label">02 — 即时预览</span><span class="paper-format">A4</span></div><div class="preview-controls"><label for="template-select" class="sr-only">选择简历模板</label><select id="template-select" aria-label="选择简历模板"></select><label for="preview-zoom" class="sr-only">预览缩放</label><select id="preview-zoom"><option value="fit">适合宽度</option><option value="0.6">60%</option><option value="0.8">80%</option><option value="1">100%</option></select></div></div><div class="preview-canvas" id="preview-canvas"><div class="paper-mount" id="paper-mount"><div class="paper-transform" id="resume-preview"></div></div></div><div class="preview-notes"><span id="preview-scale-label">A4 · 文字可选择复制</span><span id="multipage-note" hidden>内容较多，打印时会延展为多页。</span></div></div>
+      </div>
+    </section>
+  </main>
+  <footer class="app-footer"><span><b>简历工坊</b> 把经历写清楚，让机会更近一点。</span><span>20 FORMATS. ONE UNIQUE YOU.</span></footer>
+
+  <div id="toast-container" class="toast-container" role="status" aria-live="polite"></div>
+  <input id="json-file" type="file" accept="application/json,.json" hidden>
+  <input id="photo-file" type="file" accept="image/jpeg,image/png,image/webp" hidden>
+  <dialog id="confirm-dialog" class="app-dialog confirm-dialog" aria-labelledby="confirm-title"><button class="icon-button dialog-close" data-close-dialog aria-label="关闭"><svg><use href="#ic-close"/></svg></button><span class="eyebrow">A MOMENT BEFORE YOU CONTINUE</span><h2 id="confirm-title">确认操作</h2><p id="confirm-description"></p><div class="dialog-actions"><button class="button button-outline" id="confirm-cancel">暂时取消</button><button class="button button-dark" id="confirm-accept">确认继续</button></div></dialog>
+  <dialog id="help-dialog" class="app-dialog" aria-labelledby="help-title"><button class="icon-button dialog-close" data-close-dialog aria-label="关闭说明"><svg><use href="#ic-close"/></svg></button><span class="eyebrow">A SIMPLE GUIDE</span><h2 id="help-title">从空白，到你的简历。</h2><ol class="help-steps"><li><b>01</b><div><h3>选一个你喜欢的版式</h3><p>20 套模板有不同的栏数、标题和信息层级。模板缩略图使用虚构示例展示效果。</p></div></li><li><b>02</b><div><h3>填上属于你的经历</h3><p>教育、工作、项目可增删和排序；空白条目会自动隐藏。你也可以先填入示例，看看完整的排版。</p></div></li><li><b>03</b><div><h3>换模板，资料照样在</h3><p>在编辑器右上方切换模板。内容自动保存在当前浏览器；导出 JSON 可以备份，并在另一台设备导入。</p></div></li><li><b>04</b><div><h3>打印，或存为 PDF</h3><p>点击打印后，在浏览器里选择 A4 和“另存为 PDF”。建议关闭页眉页脚，开启背景图形以保留彩色区块。内容较长时自然延展为多页。</p></div></li></ol><div class="help-note">填写内容只在你的浏览器中处理。清理浏览器数据会移除本机记录，记得导出备份。</div></dialog>
+  <dialog id="references-dialog" class="app-dialog" aria-labelledby="references-title"><button class="icon-button dialog-close" data-close-dialog aria-label="关闭来源说明"><svg><use href="#ic-close"/></svg></button><span class="eyebrow">THE THINKING BEHIND THE FORMAT</span><h2 id="references-title">参考排版，重新构建。</h2><p>已搜索简历模板图片，参考单栏、侧栏、双栏和信息层级等通用布局，再制作成本站可填写的网页模板。</p><div class="reference-list"><a href="https://word.cloud.microsoft/create/en/resume-templates/" target="_blank" rel="noopener noreferrer"><span><b>Microsoft Word</b><small>专业、简洁的简历模板参考</small></span><svg><use href="#ic-external"/></svg></a><a href="https://www.canva.com/resumes/templates/" target="_blank" rel="noopener noreferrer"><span><b>Canva</b><small>简约、创意与校园排版参考</small></span><svg><use href="#ic-external"/></svg></a><a href="https://www.adobe.com/express/templates/resume" target="_blank" rel="noopener noreferrer"><span><b>Adobe Express</b><small>色彩、标题与版面层次参考</small></span><svg><use href="#ic-external"/></svg></a></div><div class="help-note">先前的《前端资产_20261006.zip》主要包含技术清单与设计参考。本页复用了其中的网格、文字层级、长文本和打印思路。20 套模板均为本次编写的 HTML / CSS 排版。</div></dialog>
+  <noscript><div class="noscript-message">请启用 JavaScript，以浏览 20 套模板并填写简历。</div></noscript>
+</body>
+</html>
